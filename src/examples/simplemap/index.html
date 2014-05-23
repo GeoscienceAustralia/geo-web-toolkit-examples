@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="simpleMap">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Simple map</title>
+    <script src="https://code.angularjs.org/1.2.8/angular.js"></script>
+    <script src="https://code.angularjs.org/1.2.8/angular-route.js"></script>
+</head>
+<body>
+    <h1>Simple map</h1>
+    <pre><code>
+&lt;div id="map" style="width:800px;height:600px"&gt;&lt;/div&gt;
+&lt;ga-map map-element-id="map"&gt;
+    &lt;ga-map-layer   layer-name="Simple map layer name"
+                    layer-url="http://basemap.nationalmap.gov/ArcGIS/services/USGSTopo/MapServer/WMSServer"
+                    is-base-layer="true"&gt;
+    &lt;/ga-map-layer&gt;
+    &lt;ga-map-control map-control-name="mouseposition"&gt;&lt;/ga-map-control&gt;
+&lt;/ga-map&gt;
+    </code></pre>
+    <p>The above code is running the sample below with the inclusion of jQuery, AngularJS, OpenLayers 2.13.1 and the GA-WebToolkit</p>
+    <ul>
+        <li>The div with the id 'map' is the container for OpenLayers to create and present the map. This should be placed somewhere that angularjs isn't 'watching' to avoid problems with binding.</li>
+        <li>The 'ga-map' element needs to know where the container element is and is told by the 'map-element-id' attribute.</li>
+        <li>A ga-map element can have n layers as children which get rendered in order of declared html</li>
+        <li>ga-map-layer can be of type WMS,XYZTileCache or ArcGISCache. If layer-type is left empty, defaults will go off the Url provided.</li>
+        <li>is-base-layer attribute is needed to indicate to the framework if the layer being added is a base layer</li>
+        <li>layer-name is used as a non-unique identifier</li>
+        <li>layer url is the endpoint of the server providing the data, for WMS it should end in 'WMSServer'</li>
+        <li>The ga-map-control is an interface to access OpenLayers native controls. See documentation for the other supported controls.</li>
+    </ul>
+    <div id="map" style="width:800px;height:600px"></div>
+    <ga-map map-element-id="map">
+        <ga-map-layer   layer-name="Simple map layer name"
+                         layer-url="http://basemap.nationalmap.gov/ArcGIS/services/USGSTopo/MapServer/WMSServer"
+                         is-base-layer="true">
+    </ga-map-layer>
+    <ga-map-control map-control-name="mouseposition"></ga-map-control>
+    </ga-map>
+<script src="../../js/OpenLayers/OpenLayers.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+<script src="../../js/gawebtoolkit/map services/layer-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/map services/map-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/map services/data-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/map services/mapservices.js"></script>
+<script src="../../js/gawebtoolkit/map services/map-control-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/core/map-services.js"></script>
+<script src="../../js/gawebtoolkit/core/map-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/map-config.js"></script>
+<script src="../../js/gawebtoolkit/core/control-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/feature-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/layer-services.js"></script>
+<script src="../../js/gawebtoolkit/core/layer-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/marker-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/core.js"></script>
+<script src="../../js/gawebtoolkit/core/services.js"></script>
+<script src="../../js/gawebtoolkit/ui/ui-directives.js"></script>
+<script>
+    var app = angular.module('simpleMap',
+    [
+        'gawebtoolkit.core'
+    ]);
+</script>
+<!--<script src="../../js/gawebtoolkit/config/directives.js"></script>-->
+</body>
+</html>
