@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="simpleMapWithFeatureLayers">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Simple map</title>
+    <script src="https://code.angularjs.org/1.2.8/angular.js"></script>
+    <script src="https://code.angularjs.org/1.2.8/angular-route.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false&.js"></script>
+    <style>
+        .olControlMousePosition {
+            left: 0;
+        }
+        .btn {
+            padding: 7px 10px;
+            background-color: #e3e3e3;
+            border: 1px solid #333;
+            margin-bottom: 1px;
+            margin-left: 0;
+            font-size: 10pt !important;
+        }
+        #map {
+            width:800px;height:600px
+        }
+    </style>
+</head>
+<body ng-controller="featureExampleController">
+<button ng-click="changefeatures()" class="btn">Remove some feature layers</button>
+<div id="map"></div>
+<ga-map map-element-id="map" datum-projection="EPSG:102100" display-projection="EPSG:4326" center-position='{"lat":"-3434403","lon":"14517578"}' zoom-level="4">
+    <ga-map-layer
+            layer-type="GoogleStreet"
+            layer-name="Simple map layer name"
+            is-base-layer="true">
+    </ga-map-layer>
+    <ga-map-control map-control-name="permalink"></ga-map-control>
+    <!--WFS needs a proxy due to CORS being disabled-->
+    <!--<ga-feature-layer
+                      url="http://localhost:8088/gis/services/topography/Gazetteer_of_Australia/MapServer/WFSServer?"
+                      server-type="wfs"
+                      wfs-feature-type="GazetteerOfAustralia"
+                      wfs-feature-prefix="topography_Gazetteer_of_Australia"
+                      wfs-version="1.1.0"
+                      wfs-geometry-name="Shape"
+                      wfs-feature-attributes="NameU"
+                      visibility="true"
+                      wfs-filter-value="canberra">
+    </ga-feature-layer>-->
+    <ga-feature-layer layer-name="My local geoJson features">
+        <ga-feature ng-repeat="feature in features"
+                    geo-json-feature="feature">
+        </ga-feature>
+    </ga-feature-layer>
+    <ga-map-control map-control-name="mouseposition"></ga-map-control>
+</ga-map>
+<script src="../../js/OpenLayers/OpenLayers.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+<script src="../../js/gawebtoolkit/map services/layer-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/map services/map-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/map services/data-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/map services/mapservices.js"></script>
+<script src="../../js/gawebtoolkit/map services/map-control-openlayersv2.js"></script>
+<script src="../../js/gawebtoolkit/core/map-services.js"></script>
+<script src="../../js/gawebtoolkit/core/map-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/map-config.js"></script>
+<script src="../../js/gawebtoolkit/core/control-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/feature-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/layer-services.js"></script>
+<script src="../../js/gawebtoolkit/core/layer-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/marker-directives.js"></script>
+<script src="../../js/gawebtoolkit/core/core.js"></script>
+<script src="../../js/gawebtoolkit/core/services.js"></script>
+<script src="../../js/gawebtoolkit/ui/ui-directives.js"></script>
+<script>
+    var jsonValue = [];
+    var app = angular.module('simpleMapWithFeatureLayers',
+            [
+                'gawebtoolkit.core'
+            ]);
+    app.controller('featureExampleController', ['$scope', function ($scope) {
+        "use strict";
+        $.ajax({type: "GET", url: "geojson.json", async: false, complete: function(data){jsonValue = data.responseJSON;}});
+        $scope.features = jsonValue;
+        $scope.changefeatures = function() {
+            $scope.features = $scope.features.slice(2);
+        };
+    }]);
+</script>
+<!--<script src="../../js/gawebtoolkit/config/directives.js"></script>-->
+</body>
+</html>

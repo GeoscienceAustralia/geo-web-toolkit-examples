@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="simpleMapWithConfig">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Simple map</title>
+    </head>
+    <body  ng-controller="exampleCtrl">
+        <input type="checkbox" ng-model="myConfig.layerMaps[0].visibility" /> Toggle Layer on/off
+        <div id="map" style="width:100%;height:600px"></div>
+    <ga-map-config ga-config-path="SimpleMap" template-path="configmap.html" static-config="true"></ga-map-config>
+    <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+    <script src="https://code.angularjs.org/1.2.8/angular.js"></script>
+    <script src="https://code.angularjs.org/1.2.8/angular-route.js"></script>
+    <script src="../../js/OpenLayers/OpenLayers.js"></script>
+    <script src="../../js/gawebtoolkit/map services/layer-openlayersv2.js"></script>
+    <script src="../../js/gawebtoolkit/map services/map-openlayersv2.js"></script>
+    <script src="../../js/gawebtoolkit/map services/data-openlayersv2.js"></script>
+    <script src="../../js/gawebtoolkit/map services/mapservices.js"></script>
+    <script src="../../js/gawebtoolkit/map services/map-control-openlayersv2.js"></script>
+    <script src="../../js/gawebtoolkit/core/map-services.js"></script>
+    <script src="../../js/gawebtoolkit/core/map-directives.js"></script>
+    <script src="../../js/gawebtoolkit/core/map-config.js"></script>
+    <script src="../../js/gawebtoolkit/core/control-directives.js"></script>
+    <script src="../../js/gawebtoolkit/core/feature-directives.js"></script>
+    <script src="../../js/gawebtoolkit/core/layer-services.js"></script>
+    <script src="../../js/gawebtoolkit/core/layer-directives.js"></script>
+    <script src="../../js/gawebtoolkit/core/marker-directives.js"></script>
+    <script src="../../js/gawebtoolkit/core/core.js"></script>
+    <script src="../../js/gawebtoolkit/core/services.js"></script>
+    <script src="../../js/gawebtoolkit/config/directives.js"></script>
+    <script src="../../js/gawebtoolkit/ui/ui-directives.js"></script>
+    <script>
+        var app = angular.module('simpleMapWithConfig',
+        ['gawebtoolkit.core','gawebtoolkit.config']);
+        
+        app.controller('exampleCtrl', function ($scope) { 
+            $scope.$on('configDataLoaded', function(event,args){ 
+                $scope.myConfig = args;
+            }) 
+        });
+    </script>
+</body>
+</html>
