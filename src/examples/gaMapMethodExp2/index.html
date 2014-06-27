@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html ng-app="addRemoveControl">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Adding/Activating/Deactivating Controls</title>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+            
+        <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+            
+        <script src="https://code.angularjs.org/1.2.8/angular.js"></script>
+        <script src="https://code.angularjs.org/1.2.8/angular-route.js"></script>
+        
+        <script src="http://maps.google.com/maps/api/js?sensor=false&.js"></script>
+            
+        <script src="../../js/OpenLayers/OpenLayers.js"></script>
+        <script src="../../js/gawebtoolkit/map services/layer-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/map services/map-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/map services/data-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/map services/mapservices.js"></script>
+        <script src="../../js/gawebtoolkit/map services/map-control-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/core/map-services.js"></script>
+        <script src="../../js/gawebtoolkit/core/map-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/map-config.js"></script>
+        <script src="../../js/gawebtoolkit/core/control-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/feature-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/layer-services.js"></script>
+        <script src="../../js/gawebtoolkit/core/layer-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/marker-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/core.js"></script>
+        <script src="../../js/gawebtoolkit/core/services.js"></script>
+        <script src="../../js/gawebtoolkit/ui/ui-directives.js"></script>
+        <style>
+            #toolbar {
+                padding: 0;
+                float: left;
+            }
+            #toolbar > * {
+                float: left;
+            }
+            .btn {
+                margin: 5px 20px;
+            }
+            #opacitySlider {
+                width: 200px;
+                height: 20px;
+                border-radius: 0;
+                margin: 0 20px;
+                display: inline-block;
+                text-align: center;
+                line-height: 20px;
+                font-size: 13px;
+            }
+            #opacitySlider .ui-slider-handle {
+                height: 20px;
+                background: red;
+                margin-top: 3px;
+                border-radius: 0;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body ng-controller="ourMapController">
+        <h1>Adding/Activating/Deactivating Controls</h1>
+        <div id="toolbar">
+            <a class='btn btn-primary btn-sm' ng-click="addControl('panzoombar', $event)"> Add pan/zoom bar control </a>
+            <a class='btn btn-primary btn-sm' ng-click="addControl('permalink', $event)"> Add permalink control </a>
+            <a class='btn btn-primary btn-sm' ng-click="addControl('OverviewMap', $event)"> Add OverviewMap control </a>
+            <a class='btn btn-primary btn-sm' ng-click="addControl('mousePosition', $event)"> Add mousePosition control </a>
+            <span ng-repeat = "addedcontrol in addedControls" ng-init="$parent.controlCheck=[]">
+                    <a class="btn btn-success btn-sm"
+                       ng-show="controlCheck[$index]"
+                       ng-click="activate(addedControls[$index][1].id, $index);">  Activate {{addedControls[$index][0]}}</a>
+                    <a class="btn btn-success btn-sm"
+                       ng-show="!controlCheck[$index]"
+                       ng-click="deactivate(addedControls[$index][1].id, $index);">  Deactivate {{addedControls[$index][0]}}</a>
+            </span>
+        </div>
+            
+        <div id="map" style="width:90%;height:600px"></div>
+    <ga-map
+        map-element-id="map"
+        datum-projection='EPSG:102100'
+        display-projection='EPSG:4326'
+        center-position='{"lat":"-3434403","lon":"14517578"}'
+        zoom-level="4">
+        <ga-map-layer
+            layer-name="Overview World Screen"
+            layer-type="GoogleStreet"
+            is-base-layer="true">
+        </ga-map-layer>
+        <ga-map-layer
+            layer-name="Topographic" 
+            layer-type="WMS"
+            layer-url="http://www.ga.gov.au/gis/services/hazards/EarthquakeHazard/MapServer/WMSServer" 
+            is-base-layer="false"
+            layers="hazardContours"
+            background-color="#ffffff">
+        </ga-map-layer>
+    </ga-map>
+        
+    <script type="text/javascript">
+        var opacitySlider = $("#opacitySlider");
+        opacitySlider.slider({
+            change: function(event,ui) {},
+            slide: function(event,ui) {}
+        });
+        opacitySlider.slider("option", "value", 100);
+    </script>
+        
+    <script>
+        var app = angular.module('addRemoveControl',
+        [
+            'gawebtoolkit.core'
+        ]);
+        app.controller('ourMapController',['$scope', function ($scope) {
+                
+                $scope.$on('mapControllerReady', function(event,args){
+                    $scope.mapController = args;
+                    $scope.addedControls = [];
+                    $scope.addControl = function (controlName, e) {
+                        var obj = [controlName, $scope.mapController.addControl(controlName, "controlEnabled")];
+                        $scope.addedControls.push(obj);
+                        e.target.remove();
+                    };
+                    $scope.deactivate = function(id, index) {
+                        $("#"+id).hide();
+                        $scope.controlCheck[index]=true;
+                    };
+                    $scope.activate = function(id, index) {
+                        $("#"+id).show();
+                        $scope.controlCheck[index]=false;
+                    };
+                });
+            }]);
+    </script>
+        
+</body>
+</html>
