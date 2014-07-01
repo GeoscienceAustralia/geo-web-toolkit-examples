@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="simpleMapWithControl">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Simple map</title>
+        <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+        <script src="https://code.angularjs.org/1.2.8/angular.js"></script>
+        <script src="https://code.angularjs.org/1.2.8/angular-route.js"></script>
+            
+        <script src="../../js/OpenLayers/OpenLayers.js"></script>
+        <script src="../../js/gawebtoolkit/map services/layer-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/map services/map-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/map services/data-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/map services/mapservices.js"></script>
+        <script src="../../js/gawebtoolkit/map services/map-control-openlayersv2.js"></script>
+        <script src="../../js/gawebtoolkit/core/map-services.js"></script>
+        <script src="../../js/gawebtoolkit/core/map-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/map-config.js"></script>
+        <script src="../../js/gawebtoolkit/core/control-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/feature-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/layer-services.js"></script>
+        <script src="../../js/gawebtoolkit/core/layer-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/marker-directives.js"></script>
+        <script src="../../js/gawebtoolkit/core/core.js"></script>
+        <script src="../../js/gawebtoolkit/core/services.js"></script>
+        <script src="../../js/gawebtoolkit/ui/ui-directives.js"></script>
+        <script>
+            var app = angular.module('simpleMapWithControl',
+            [
+                'gawebtoolkit.core',
+            ]);
+        </script>
+    </head>
+    <body>
+        <div id="map" style="width:100%;height:600px"></div>
+    <ga-map map-element-id="map">
+        <ga-map-layer layer-name="Simple map layer name" layer-url="http://basemap.nationalmap.gov/ArcGIS/services/USGSTopo/MapServer/WMSServer" is-base-layer="true" layer-type="WMS">
+        </ga-map-layer>
+        <ga-map-control map-control-name="mouseposition"></ga-map-control>
+        <ga-map-control map-control-name="OverviewMap"></ga-map-control>
+        <ga-map-control map-control-name="Permalink"></ga-map-control>
+        <ga-map-control map-control-name="scale"></ga-map-control>
+        <ga-map-control map-control-name="ScaleLine"></ga-map-control>
+        <ga-map-control map-control-name="panzoombar"></ga-map-control>
+        <ga-map-control map-control-name="measureline"></ga-map-control>
+        <ga-map-control map-control-name="measurepolygon"></ga-map-control>
+        <ga-map-control map-control-name="wmsgetfeatureinfo"></ga-map-control>
+    </ga-map>
+</body>
+</html>
