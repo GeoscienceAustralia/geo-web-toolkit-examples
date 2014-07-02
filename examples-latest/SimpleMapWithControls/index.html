@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="simpleMapWithControl">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Simple map</title>
+        <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+        <script src="https://code.angularjs.org/1.2.8/angular.js"></script>
+        <script src="https://code.angularjs.org/1.2.8/angular-route.js"></script>
+            
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
+        <script src="http://geoscienceaustralia.github.io/geo-web-toolkit/dist/latest/geo-web-toolkit-min.js"></script>
+        <script>
+            var app = angular.module('simpleMapWithControl',
+            [
+                'gawebtoolkit.core',
+            ]);
+        </script>
+    </head>
+    <body>
+        <div id="map" style="width:100%;height:600px"></div>
+    <ga-map map-element-id="map">
+        <ga-map-layer layer-name="Simple map layer name" layer-url="http://basemap.nationalmap.gov/ArcGIS/services/USGSTopo/MapServer/WMSServer" is-base-layer="true" layer-type="WMS">
+        </ga-map-layer>
+        <ga-map-control map-control-name="mouseposition"></ga-map-control>
+        <ga-map-control map-control-name="OverviewMap"></ga-map-control>
+        <ga-map-control map-control-name="Permalink"></ga-map-control>
+        <ga-map-control map-control-name="scale"></ga-map-control>
+        <ga-map-control map-control-name="ScaleLine"></ga-map-control>
+        <ga-map-control map-control-name="panzoombar"></ga-map-control>
+        <ga-map-control map-control-name="measureline"></ga-map-control>
+        <ga-map-control map-control-name="measurepolygon"></ga-map-control>
+        <ga-map-control map-control-name="wmsgetfeatureinfo"></ga-map-control>
+    </ga-map>
+</body>
+</html>

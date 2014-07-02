@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="mouseMapClick">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Adding/Activating/Deactivating Controls</title>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+            
+        <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+            
+        <script src="https://code.angularjs.org/1.2.8/angular.js"></script>
+        <script src="https://code.angularjs.org/1.2.8/angular-route.js"></script>
+        
+        <script src="http://maps.google.com/maps/api/js?sensor=false&.js"></script>
+            
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
+        <script src="http://geoscienceaustralia.github.io/geo-web-toolkit/dist/latest/geo-web-toolkit-min.js"></script>
+        <style>
+            #map {
+                 width:90%;
+                 height:600px;
+            }
+            #toolbar {
+                padding: 0;
+                float: left;
+            }
+            #toolbar > * {
+                float: left;
+            }
+            .btn {
+                margin: 5px 20px;
+            }
+        </style>
+    </head>
+    <body ng-controller="ourMapController">
+        <h1>Adding/Activating/Deactivating Controls</h1>
+        <div id="toolbar">
+            <a class="btn btn-primary" ng-click="toggleMouseClickRegistration($event)">{{registerMapClickButton}}</a>
+            <span class="alert alert-danger messagebox">
+                {{mouseClickStatus + " | " + mouseClickMsg}}</span>
+        </div>
+            
+        <div id="map"></div>
+    <ga-map
+        map-element-id="map"
+        datum-projection='EPSG:102100'
+        display-projection='EPSG:4326'
+        center-position='{"lat":"-3434403","lon":"14517578"}'
+        zoom-level="4">
+        <ga-map-layer
+            layer-name="Overview World Screen"
+            layer-type="GoogleStreet"
+            is-base-layer="true">
+        </ga-map-layer>
+        <ga-map-layer
+            layer-name="Topographic" 
+            layer-type="WMS"
+            layer-url="http://www.ga.gov.au/gis/services/hazards/EarthquakeHazard/MapServer/WMSServer" 
+            is-base-layer="false"
+            layers="hazardContours"
+            background-color="#ffffff">
+        </ga-map-layer>
+    </ga-map>
+        
+    <script>
+        var app = angular.module('mouseMapClick', ['gawebtoolkit.core']);
+        app.controller('ourMapController',['$scope', function ($scope) {
+                $scope.mouseMoveRegistered = false;
+                $scope.$on('mapControllerReady', function(event,args) {
+                    $scope.mapController = args;
+                    $scope.mouseClickStatus = "mouseClickStatus";
+                    $scope.mouseClickMsg = "mouseClickMsg";
+                    $scope.registerMapClickButton = "Register map click";
+                    $scope.toggleMouseClickRegistration = function() {
+                        if(!$scope.mouseClickRegistered) {
+                            $scope.mouseClickStatus = "Map click registered";
+                            $scope.mouseClickRegistered = true;
+                            $scope.registerMapClickButton = "Unregister Map Click";
+                            $scope.mapController.registerMapClick(mapClickCallback);
+                        }
+                        
+                        else {
+                            $scope.mouseClickStatus = "Map click not registered";
+                            $scope.mouseClickMsg = "mouseClickMsg";
+                            $scope.mouseClickRegistered = false;
+                            $scope.registerMapClickButton = "Register Map Click";
+                            $scope.mapController.unRegisterMapClick(mapClickCallback);
+                        }
+                    };
+                    var mapClickCallback = function() {
+                        $scope.mouseClickMsg = "Map Clicked";
+                        setTimeout(function() {
+                            $scope.mouseClickMsg = "mouseClickMsg";
+                            $scope.$apply();
+                        }, 1000)
+                        $scope.$apply();
+                    };
+                        
+                    var mapClickCallback = function() {
+                        $scope.mouseClickMsg = "Map Clicked";
+                        setTimeout(function() {
+                            $scope.mouseClickMsg = "mouseClickMsg";
+                            $scope.$apply();
+                        }, 1000);
+                        $scope.$apply();
+                    };
+                });
+            }]);
+    </script>
+        
+</body>
+</html>
