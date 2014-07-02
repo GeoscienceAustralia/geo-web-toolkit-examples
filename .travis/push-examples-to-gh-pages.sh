@@ -13,7 +13,7 @@ if [ "$TRAVIS_REPO_SLUG" == "GeoscienceAustralia/geo-web-toolkit-examples" ] && 
 
   cd gh-pages
   git rm -rf * > /dev/null
-  cp -Rf $HOME/examples-latest .
+  cp -Rf $HOME/examples-latest/* .
   git add -f .
   git commit -m "Lastest examples on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
   git push -fq origin gh-pages > /dev/null
