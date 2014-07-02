@@ -7,4 +7,4 @@ after_success:
 - .travis/push-examples-to-gh-pages.sh
 env:
   global:
-    secure: Gdq3/nyNOMn1GM7vwTFAxHGJF8TSyhKTUVxZakMi0zEh511knJKqzKW0ynKv6YjI9poZWj08efti9q+XVlkkL8CM6Jh1UBSN8+fR6aZgEB8mbQmKZPfJN+UiA04yYokuyNW2q+vz/53jDYYz20dc1oFRx1S+zCq+KMwWcEa/h+Y=
+    secure: BACujQ3rxwvhyhX3t9LlhjO96jMer/iPIycFkTijOebISi5vjOHum+dGpdNYQDzUT0eeAKuMVB0Uj7Nu0MOpoevLkZd76wWtAVvlsqOP0+6Atc3XR6bZp3MnNM1rP+358dL8ype+S/dInM04F9JxTO7/jrqBX2xO6bd2zM50QCI=
